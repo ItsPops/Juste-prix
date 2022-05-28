@@ -1,40 +1,40 @@
-#include<iostream>
+#include <iostream>
 #include <array>
+#include <random>
 #include "constants.h"
 #include "jeu.h"
 #include "menu.h"
 
 using namespace std;
 
-
 int main () {
     bool continuer{true};
     auto indiceCourant{0};
-    auto scores = array<int, NOMBRE_SCORES>{0,0,0}; 
+    auto scores = array <int, NOMBRE_SCORES>{0,0,0};
+    auto generateurAleatoire = std::random_device{};  
+    auto generateur = mt19937{generateurAleatoire()};
+    auto distribution = std::uniform_int_distribution{BORNE_MIN, BORNE_MAX};
+    
     while (continuer) {
         afficherMenu();
         cout << WELCOME_DIALOG << endl;
-        //array <int, NOMBRE_SCORES> scores {1,2,3};
-        
         auto choix = demanderChoixMenu();
         switch (choix) {
         case ChoixMenu::JOUER:
-            
-            scores[indiceCourant] = jeu(4598, BORNE_MAX);
-            //while (indiceCourant <= 3) {
-                //indiceCourant ++;
-                //TEST: cout << jeu(4598, BORNE_MAX) << "test" << endl;
-                cout << scores[0] << " TEST APRES PARTIE" << endl; //TEST
-                indiceCourant = (indiceCourant + 1 ) % NOMBRE_SCORES;
+            scores[indiceCourant] = jeu(distribution(generateur), BORNE_MAX);
+            indiceCourant = (indiceCourant + 1 ) % NOMBRE_SCORES;
             break;
-            // if (indiceCourant == 3) {
-            //     indiceCourant = 0;
-            //     }
-            // } 
-            // break;
         case ChoixMenu::AFFICHER_SCORES:
             for(auto i{0}; i < NOMBRE_SCORES; i++) {
-                cout << scores[i] << endl;
+                if (scores[i] == 1) {
+                    cout << "Partie " << i+1 << ": " << scores[i] << " tentative" << endl;
+                }
+                else if (scores[i] == 0) {
+                    cout << "Partie " << i+1 << ": " << "-" << endl;
+                }
+                else {
+                    cout << "Partie " << i+1 << ": " << scores[i] << " tentatives" << endl;  
+                }
             }
             break;
         case ChoixMenu::QUITTER:

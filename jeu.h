@@ -1,6 +1,7 @@
 #ifndef JEU_H_INCLUDED
 #define JEU_H_INCLUDED
 
+#include <array>
 #include "constants.h"
 
 void demanderProposition(int& proposition); 

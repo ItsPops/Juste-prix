@@ -10,6 +10,4 @@ enum class ChoixMenu {
 void afficherMenu();
 ChoixMenu demanderChoixMenu();
 
-
-
 #endif 
